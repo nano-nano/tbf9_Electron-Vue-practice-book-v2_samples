@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import {
   createProtocol,
   /* installVueDevtools */
@@ -89,3 +89,14 @@ if (isDevelopment) {
     })
   }
 }
+
+// IPC（プロセス間通信）の実装
+// メインプロセスを要するダイアログ表示をIPCを利用して行う
+ipcMain.handle('showSpeedGuideDialog', (event, data) => {
+  // 文言の参考: https://keisan.casio.jp/exec/system/1231998943
+  dialog.showMessageBox({
+    title: '音速の求め方',
+    message: '一般に、気体中の音速cは c = √(kRT / M) で求められる。\n'
+     + 'なお、ここでkは比熱比（空気は1.403）、Rは気体定数（8.314462）、Mは分子量（空気は28.966）、Tは絶対温度である。'
+  })
+})

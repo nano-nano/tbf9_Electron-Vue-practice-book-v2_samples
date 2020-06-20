@@ -26,18 +26,18 @@
           <h6>m/秒</h6>
         </b-col>
         <b-col>
-          <b-icon icon="info" class="h4" />
+          <b-icon icon="info" class="h4" v-on:click="showSpeedGuideDialog" />
         </b-col>
       </b-row>
 
       <b-row class="mt-3">
         <b-col>
-          <b-button block variant="primary">スタート / ストップ</b-button>
+          <b-button block variant="primary" v-on:click="toggleStartStop">スタート / ストップ</b-button>
         </b-col>
       </b-row>
       <b-row class="mt-1">
         <b-col>
-          <b-button block variant="danger" v-bind:disabled="isRunningWatch">リセット</b-button>
+          <b-button block variant="danger" v-bind:disabled="isRunningWatch" v-on:click="reset">リセット</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'App',
@@ -67,6 +68,27 @@ export default {
     }
   },
   methods: {
+    toggleStartStop: function () {
+      this.isRunningWatch = !this.isRunningWatch
+      if (this.runningTimer == null) {
+        this.runningTimer = setInterval(() => {
+          this.ds++
+        }, 100)
+      } else {
+        clearInterval(this.runningTimer)
+        this.runningTimer = null
+      }
+    },
+    reset: function () {
+      this.ds = 0
+    },
+    showSpeedGuideDialog: function () {
+      // ダイアログを表示するにはメインプロセスのdialogモジュールが必要
+      // しかし、レンダラープロセス上でのremoteモジュールの使用が非推奨になっているので、
+      // IRC（プロセス間通信）を利用してダイアログ表示をメインプロセスに委譲する
+      // https://medium.com/@nornagon/electrons-remote-module-considered-harmful-70d69500f31
+      ipcRenderer.invoke('showSpeedGuideDialog', null)
+    }
   }
 }
 </script>
