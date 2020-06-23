@@ -1,6 +1,15 @@
 <template>
-  <div class="home">
-    <h1>This is Home</h1>
+  <div class="home d-flex flex-column justify-content-center">
+    <div class="d-flex justify-content-center">
+      <div class="pb-5">
+        <h1>🥺ぴえんゲーム</h1>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="d-flex">
+        <b-button size="lg" variant="outline-primary">はじめる</b-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,3 +20,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.home {
+  height: 100vh;
+}
+</style>
