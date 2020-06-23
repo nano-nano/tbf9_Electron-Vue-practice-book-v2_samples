@@ -1,4 +1,4 @@
-# 02_thinking_face_game
+# 02_pien_face_game
 
 ## Project setup
 ```
