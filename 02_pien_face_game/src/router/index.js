@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Game from '../views/Game.vue'
+import Result from '../views/Result.vue'
 
 Vue.use(VueRouter)
 
@@ -11,12 +13,19 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/game',
+    name: 'Game',
+    component: Game
+    /** 
+     * Vue-Routerのボイラープレートにはルートレベルコード分割
+     * （このルートのための別のチャンク (about. [hash].js) を生成し、ルートが訪問されたときに遅延ロードされる）があるが
+     * Electronの場合は遅延ロードする利点は特にないので、使う必要はない
+     */
+  },
+  {
+    path: '/result',
+    name: 'Result',
+    component: Result
   }
 ]
 
