@@ -7,7 +7,7 @@
     </div>
     <div class="d-flex justify-content-center">
       <div class="d-flex">
-        <b-button size="lg" variant="outline-primary">はじめる</b-button>
+        <b-button size="lg" variant="outline-primary" v-on:click="moveToGame">はじめる</b-button>
       </div>
     </div>
   </div>
@@ -17,8 +17,14 @@
 export default {
   name: 'Home',
   components: {
+  },
+  methods: {
+    moveToGame: function () {
+      this.$router.replace({ name: 'Game' })
+    }
   }
 }
+
 </script>
 <style scoped>
 .home {
