@@ -2,7 +2,7 @@
   <div class="home d-flex flex-column justify-content-center">
     <div class="d-flex justify-content-center">
       <div class="pb-5">
-        <h1>🥺ぴえんゲーム</h1>
+        <span class="title">🥺ぴえんゲーム🥺</span>
       </div>
     </div>
     <div class="d-flex justify-content-center">
@@ -20,14 +20,17 @@ export default {
   },
   methods: {
     moveToGame: function () {
-      this.$router.replace({ name: 'Game' })
+      this.$router.replace({ name: 'Result' })
     }
   }
 }
-
 </script>
+
 <style scoped>
 .home {
   height: 100vh;
+}
+.title {
+  font-size: 4rem;
 }
 </style>
