@@ -5,7 +5,7 @@
     </div>
     <div class="d-flex flex-column justify-content-center m-5">
       <div class="d-flex justify-content-center">
-        <h1>回答数: 00問 / 正解率: 0.00％</h1>
+        <h1>回答数: {{ $route.params.answered }}問 / 正解率: {{accuracyRate}}％</h1>
       </div>
       <div class="d-flex justify-content-center">
         <h1>おめでとう！</h1>
@@ -21,6 +21,16 @@
 export default {
   name: 'Result',
   components: {
+  },
+  computed: {
+    accuracyRate: function () {
+      // 正解率表示
+      if (this.$route.params.answered == 0) {
+        return 0
+      } else {
+        return ((this.$route.params.corrected  / this.$route.params.answered) * 100).toFixed(2)
+      }
+    }
   },
   methods: {
     moveToHome: function () {
