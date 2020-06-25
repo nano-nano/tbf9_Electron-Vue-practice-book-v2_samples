@@ -20,7 +20,8 @@ export default {
   },
   methods: {
     moveToGame: function () {
-      this.$router.replace({ name: 'Result' })
+      // vue-routerで画面遷移する
+      this.$router.replace({ name: 'Game' })
     }
   }
 }

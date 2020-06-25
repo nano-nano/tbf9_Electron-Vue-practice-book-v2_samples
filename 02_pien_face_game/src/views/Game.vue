@@ -26,6 +26,34 @@ export default {
       corrected: 0   // 正解数
     }
   },
+  methods: {
+    beforeGame: function () {
+      // ゲーム開始前の処理
+      let countdown = 3
+      this.target = countdown
+      const timer = setInterval(() => {
+        countdown--
+        if (countdown == 0) {
+          clearInterval(timer)
+          this.startGame()
+          return
+        } 
+        this.target = countdown
+      }, 1000)
+    },
+    startGame: function () {
+      // ゲームのメイン処理
+      this.finishGame()
+    }, 
+    finishGame: function () {
+      // ゲーム終了時の処理
+      this.$router.replace({ name: 'Result', params: { answered: this.answered, corrected: this.corrected} })
+    }
+  },
+  mounted: function () {
+  // 画面のロードが完了し、動作可能になったタイミングで呼ばれる
+  this.beforeGame()
+  }
 }
 </script>
 
