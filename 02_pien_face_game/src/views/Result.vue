@@ -5,10 +5,10 @@
     </div>
     <div class="d-flex flex-column justify-content-center m-5">
       <div class="d-flex justify-content-center">
-        <h1>回答数: {{ $route.params.answered }}問 / 正解率: {{accuracyRate}}％</h1>
+        <h1>回答数: {{ $route.params.answered }}問 / 正解率: {{ (this.$route.params.accuracyRate * 100).toFixed(2) }}％</h1>
       </div>
       <div class="d-flex justify-content-center">
-        <h1>おめでとう！</h1>
+        <h1>{{finishMsg}}</h1>
       </div>
     </div>
     <div class="d-flex justify-content-center">
@@ -23,12 +23,17 @@ export default {
   components: {
   },
   computed: {
-    accuracyRate: function () {
-      // 正解率表示
-      if (this.$route.params.answered == 0) {
-        return 0
+    finishMsg: function () {
+      // 解答数と正解率でスコアを算出
+      const score = this.$route.params.answered * this.$route.params.accuracyRate
+      if (score >= 50) {
+        return 'すばらしい！！ぴえんマスター！！'
+      } else if (score >= 40) {
+        return 'すごい！ぴえんプロ！'
+      } else if (score >= 30) {
+        return 'ノーマルぴえんです'
       } else {
-        return ((this.$route.params.corrected  / this.$route.params.answered) * 100).toFixed(2)
+        return 'もうすこしぴえんしましょう……'
       }
     }
   },

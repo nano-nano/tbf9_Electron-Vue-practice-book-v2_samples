@@ -8,7 +8,7 @@
     </div>
     <div class="d-flex justify-content-center">
       <b-button size="lg" variant="outline-primary button-font mr-5" v-on:click="onClickAnswerBtn(true)">ぴえん</b-button>
-      <b-button size="lg" variant="outline-danger button-font" v-on:click="onClickAnswerBtn(true)">Notぴえん</b-button>
+      <b-button size="lg" variant="outline-danger button-font" v-on:click="onClickAnswerBtn(false)">Notぴえん</b-button>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
       restTime: 30,  // 残り時間
       target: "",    // 中央に表示される文字
       answered: 0,   // 解答数
-      corrected: 0   // 正解数
+      corrected: 0,  // 正解数
     }
   },
   methods: {
@@ -58,7 +58,10 @@ export default {
     }, 
     finishGame: function () {
       // ゲーム終了時の処理
-      this.$router.replace({ name: 'Result', params: { answered: this.answered, corrected: this.corrected} })
+      this.$router.replace({
+         name: 'Result', 
+         params: { answered: this.answered, accuracyRate: this.corrected / this.answered } 
+      })
     },
     onClickAnswerBtn: function (isPien) {
       if ((this.target == '🥺') == isPien) {
