@@ -10,6 +10,9 @@
       <b-button size="lg" variant="outline-primary button-font mr-5" v-on:click="onClickAnswerBtn(true)">ぴえん</b-button>
       <b-button size="lg" variant="outline-danger button-font" v-on:click="onClickAnswerBtn(false)">Notぴえん</b-button>
     </div>
+    <div class="d-flex m-2 justify-content-end">
+      <b-button :pressed.sync="isBgmOn" variant="outline-primary">BGM ミュート</b-button>
+    </div>
   </div>
 </template>
 
@@ -29,7 +32,13 @@ export default {
       target: "",    // 中央に表示される文字
       answered: 0,   // 解答数
       corrected: 0,  // 正解数
-      bgmObj: null   // BGM再生用インスタンス
+      bgmObj: null,  // BGM再生用インスタンス
+      isBgmOn: false // BGMミュートフラグ
+    }
+  },
+  watch: {
+    isBgmOn: function (newVal) {
+      this.bgmObj.mute(newVal)
     }
   },
   methods: {
