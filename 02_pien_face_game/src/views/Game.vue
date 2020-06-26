@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { Howl } from 'howler'
+
 // 問題データ
 const QUESTION_EMOJIS = ['🥺', '🤔', '😇', '😂', '😀', '🙃', '😍']
 
@@ -27,6 +29,7 @@ export default {
       target: "",    // 中央に表示される文字
       answered: 0,   // 解答数
       corrected: 0,  // 正解数
+      bgmObj: null   // BGM再生用インスタンス
     }
   },
   methods: {
@@ -46,6 +49,7 @@ export default {
     },
     startGame: function () {
       // ゲームのメイン処理
+      this.bgmObj.play()
       this.setQuestionEmoji()
       const timer = setInterval(() => {
         this.restTime--
@@ -78,6 +82,7 @@ export default {
   },
   mounted: function () {
   // 画面のロードが完了し、動作可能になったタイミングで呼ばれる
+  this.bgmObj = new Howl({ src: [require('../assets/bgm.mp3')] })
   this.beforeGame()
   }
 }

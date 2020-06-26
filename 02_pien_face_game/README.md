@@ -22,3 +22,7 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Resources
+
+- [「ぴえん」のうた (Short Version)](https://dova-s.jp/bgm/play12412.html)
