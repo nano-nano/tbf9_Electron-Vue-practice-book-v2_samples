@@ -7,8 +7,8 @@
       <span class="align-self-center">{{target}}</span>
     </div>
     <div class="d-flex justify-content-center">
-      <b-button size="lg" variant="outline-primary button-font mr-5">ぴえん</b-button>
-      <b-button size="lg" variant="outline-danger button-font">Notぴえん</b-button>
+      <b-button size="lg" variant="outline-primary button-font mr-5" v-on:click="onClickAnswerBtn(true)">ぴえん</b-button>
+      <b-button size="lg" variant="outline-danger button-font" v-on:click="onClickAnswerBtn(true)">Notぴえん</b-button>
     </div>
   </div>
 </template>
@@ -59,6 +59,13 @@ export default {
     finishGame: function () {
       // ゲーム終了時の処理
       this.$router.replace({ name: 'Result', params: { answered: this.answered, corrected: this.corrected} })
+    },
+    onClickAnswerBtn: function (isPien) {
+      if ((this.target == '🥺') == isPien) {
+        this.corrected++
+      }
+      this.answered++
+      this.setQuestionEmoji()
     },
     setQuestionEmoji: function () {
       // 問題データの配列からランダムで絵文字を設定
