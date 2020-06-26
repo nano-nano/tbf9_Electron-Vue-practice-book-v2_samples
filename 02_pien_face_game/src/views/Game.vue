@@ -14,6 +14,9 @@
 </template>
 
 <script>
+// 問題データ
+const QUESTION_EMOJIS = ['🥺', '🤔', '😇', '😂', '😀', '🙃', '😍']
+
 export default {
   name: 'Game',
   components: {
@@ -43,11 +46,24 @@ export default {
     },
     startGame: function () {
       // ゲームのメイン処理
-      this.finishGame()
+      this.setQuestionEmoji()
+      const timer = setInterval(() => {
+        this.restTime--
+        if (this.restTime == 0) {
+          clearInterval(timer)
+          this.finishGame()
+          return
+        } 
+      }, 1000)
     }, 
     finishGame: function () {
       // ゲーム終了時の処理
       this.$router.replace({ name: 'Result', params: { answered: this.answered, corrected: this.corrected} })
+    },
+    setQuestionEmoji: function () {
+      // 問題データの配列からランダムで絵文字を設定
+      const idx = Math.floor(Math.random() * QUESTION_EMOJIS.length)
+      this.target = QUESTION_EMOJIS[idx]
     }
   },
   mounted: function () {
