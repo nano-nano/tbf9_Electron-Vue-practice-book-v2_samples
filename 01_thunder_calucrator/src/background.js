@@ -17,11 +17,17 @@ protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: { secure: true
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 400, height: 300, icon: path.join(__static, 'app_icon.png'), webPreferences: {
-    // Use pluginOptions.nodeIntegration, leave this alone
-    // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-    nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
-  } })
+  win = new BrowserWindow({ 
+    width: 400, 
+    height: 300, 
+    useContentSize: true, 
+    icon: path.join(__static, 'app_icon.png'), 
+    webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+    } 
+  })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
