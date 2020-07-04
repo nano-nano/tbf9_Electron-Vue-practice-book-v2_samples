@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import {
   createProtocol,
   installVueDevtools
@@ -89,3 +89,10 @@ if (isDevelopment) {
     })
   }
 }
+
+ipcMain.handle('showFileSelectDialog', (event, data) => {
+  return dialog.showOpenDialogSync({
+    title: "問題ファイルを選択",
+    filters: [{ name: "問題ファイル(Excel)", extensions: [".xlsx", ".xls"] }]
+  })
+})
