@@ -1,10 +1,12 @@
 <template>
   <div class="home">
     <!-- ファイルインポートコンポーネント -->
-    <ImportedFileView class="m-2" v-bind:importedFilePath="importedFilePath" v-on:onFilePathUpdated="onNewFileSelected" />
+    <ImportedFileView class="m-2"
+      v-bind:importedFilePath="importedFilePath" v-on:onFilePathUpdated="onNewFileSelected" />
     <!-- 問題プレビューエリア -->
     <div class="d-flex justify-content-between mx-2 my-4">
-      <b-button variant="outline-primary" size="lg" class="text-nowrap">＜＜前の問題</b-button>
+      <b-button variant="outline-primary" size="lg" class="text-nowrap"
+        v-bind:disabled="currentIdx == 0" v-on:click="onClickPrevBtn">＜＜前の問題</b-button>
       <div class="card question-area">
         <div class="card-body">
           <div class="font-weight-bold">【問題】</div>
@@ -13,7 +15,8 @@
           <div><span v-html="answerStr" /></div>
         </div>
       </div>
-      <b-button variant="outline-primary" size="lg" class="text-nowrap">次の問題＞＞</b-button>
+      <b-button variant="outline-primary" size="lg" class="text-nowrap" 
+        v-bind:disabled="currentIdx + 1 == qDataArray.length" v-on:click="onClickNextBtn">次の問題＞＞</b-button>
     </div>
     <!-- オペレーションエリア -->
     <div class="d-flex justify-content-center mx-2 my-4">
@@ -26,7 +29,11 @@
 </template>
 
 <script>
+// @はsrc1のパスを表現するエイリアス
 import ImportedFileView from '@/components/ImportedFileView.vue'
+import ExcelFileUtils from '@/utils/ExcelFileUitls.js'
+
+const DEFAULT_PATH_MSG = '問題ファイルを選択するか、ここへドラッグしてください'
 
 export default {
   name: 'Home',
@@ -35,21 +42,41 @@ export default {
   },
   data () {
     return {
-      qDataarray: [],     // 問題データ配列
-      importedFilePath: 'ファイルを選択してください',  // 問題データファイルのPATH
-      questionStr: "",       // 問題文
-      answerStr: "",         // 正解文
+      qDataArray: [],                      // 問題データ配列
+      currentIdx: 0,                       // 現在参照中の問題データ配列インデックス
+      importedFilePath: DEFAULT_PATH_MSG,  // 問題データファイルのPATH
+      questionStr: "",                     // 問題文
+      answerStr: "",                       // 正解文
     }
   },
   methods: {
     onNewFileSelected: function (params) {
-      this.importedFilePath = params.path != '' ? params.path : 'ファイルを選択してください'
+      this.importedFilePath = params.path != '' ? params.path : DEFAULT_PATH_MSG
+      if (params.path  != '') {
+        // 問題をインポートする
+        ExcelFileUtils.importQuizData(params.path).then((dataArray) => {
+          this.qDataArray = dataArray
+          this._setQuestionData(0)
+        })
+      } else {
+        this.qDataArray = []
+        this.questionStr = ''
+        this.answerStr = ''
+      }
+    },
+    _setQuestionData: function (index) {
+      this.questionStr = this.qDataArray[index].question
+      this.answerStr = this.qDataArray[index].answer
+      this.currentIdx = index
+    },
+    onClickPrevBtn: function () {
+      this._setQuestionData(this.currentIdx - 1)
+    },
+    onClickNextBtn: function () {
+      this._setQuestionData(this.currentIdx + 1)
     }
   },
   mounted: function () {
-    // TODO: デバッグ用
-    this.questionStr = "問題ああああああああああああああああああああああああ"
-    this.answerStr = "答えああああああああああああああああああああああああ"
   }
 }
 </script>
