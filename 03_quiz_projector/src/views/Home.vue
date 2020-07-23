@@ -68,10 +68,10 @@ export default {
       }
     },
     _setQuestionData: function (index) {
+      this.onClickResetShowingBtn()
       this.questionStr = this.qDataArray[index].question
       this.answerStr = this.qDataArray[index].answer
       this.currentIdx = index
-      this.onClickResetShowingBtn()
     },
     onClickPrevBtn: function () {
       this._setQuestionData(this.currentIdx - 1)
@@ -86,10 +86,12 @@ export default {
   },
   watch: {
     isShowQuestion: function (newVal) {
-      ipcRenderer.invoke('operationProjection', {operation: 'question', isShow: newVal, str: this.questionStr})
+      ipcRenderer.invoke('operationProjection', 
+        {operation: 'question', isShow: newVal, str: newVal ? this.questionStr : ''})
     },
     isShowAnswer: function (newVal) {
-      ipcRenderer.invoke('operationProjection', {operation: 'answer', isShow: newVal, str: this.answerStr})
+      ipcRenderer.invoke('operationProjection',
+        {operation: 'answer', isShow: newVal, str: newVal ? this.answerStr : ''})
     }
   }
 }
