@@ -29,7 +29,7 @@
 </template>
 
 <script>
-// @はsrc1のパスを表現するエイリアス
+// @はsrcのパスを表現するエイリアス
 import ImportedFileView from '@/components/ImportedFileView.vue'
 import ExcelFileUtils from '@/utils/ExcelFileUitls.js'
 
