@@ -20,8 +20,8 @@
     </div>
     <!-- オペレーションエリア -->
     <div class="d-flex justify-content-center mx-2 my-4">
-      <b-button variant="outline-primary" size="lg" class="mx-3">問題を表示</b-button>
-      <b-button variant="outline-primary" size="lg" class="mx-3">解答を表示</b-button>
+      <b-button variant="outline-primary" size="lg" class="mx-3" :pressed.sync="isShowQuestion">問題を表示</b-button>
+      <b-button variant="outline-primary" size="lg" class="mx-3" :pressed.sync="isShowAnswer">解答を表示</b-button>
       <b-button variant="outline-primary" size="lg" class="mx-3">表示をすべて消す</b-button>
       <b-button variant="outline-secondary" size="lg" class="ml-5">表示設定</b-button>
     </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 // @はsrcのパスを表現するエイリアス
 import ImportedFileView from '@/components/ImportedFileView.vue'
 import ExcelFileUtils from '@/utils/ExcelFileUitls.js'
@@ -47,6 +48,8 @@ export default {
       importedFilePath: DEFAULT_PATH_MSG,  // 問題データファイルのPATH
       questionStr: "",                     // 問題文
       answerStr: "",                       // 正解文
+      isShowQuestion: false,               // 問題文を表示しているかフラグ
+      isShowAnswer: false,                 // 解答文を表示しているかフラグ
     }
   },
   methods: {
@@ -76,7 +79,13 @@ export default {
       this._setQuestionData(this.currentIdx + 1)
     }
   },
-  mounted: function () {
+  watch: {
+    isShowQuestion: function (newVal) {
+      ipcRenderer.invoke('operationProjection', {operation: 'question', isShow: newVal, str: this.questionStr})
+    },
+    isShowAnswer: function (newVal) {
+      ipcRenderer.invoke('operationProjection', {operation: 'answer', isShow: newVal, str: this.answerStr})
+    }
   }
 }
 </script>

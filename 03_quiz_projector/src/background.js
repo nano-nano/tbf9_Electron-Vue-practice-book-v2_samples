@@ -41,6 +41,7 @@ function createWindow() {
   win.on('closed', () => {
     win = null
   })
+  createProjectionWindow()
 }
 
 // Quit when all windows are closed.
@@ -95,4 +96,38 @@ ipcMain.handle('showFileSelectDialog', (event, data) => {
     title: "問題ファイルを選択",
     filters: [{ name: "問題ファイル(Excel)", extensions: [".xlsx", ".xls"] }]
   })
+})
+
+// 問題投影ウィンドウ制御
+let projectionWin = null
+
+function createProjectionWindow() {
+  // ウィンドウインスタンスを生成
+  projectionWin = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+    }
+  })
+
+  // 投影用画面を直接開くようURLを設定
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    projectionWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL + '#/pj')
+  } else {
+    projectionWin.loadURL('app://./index.html#/pj')
+  }
+  projectionWin.on('closed', () => {
+    projectionWin = null
+    // 投影用ウィンドウに連動してアプリ自体も終了する
+    app.quit()
+  })
+}
+
+ipcMain.handle('operationProjection', (event, data) => {
+  if (projectionWin != null) {
+    projectionWin.webContents.send('operationProjection', data)
+  }
 })
