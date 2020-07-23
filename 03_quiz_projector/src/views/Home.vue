@@ -22,7 +22,7 @@
     <div class="d-flex justify-content-center mx-2 my-4">
       <b-button variant="outline-primary" size="lg" class="mx-3" :pressed.sync="isShowQuestion">問題を表示</b-button>
       <b-button variant="outline-primary" size="lg" class="mx-3" :pressed.sync="isShowAnswer">解答を表示</b-button>
-      <b-button variant="outline-primary" size="lg" class="mx-3">表示をすべて消す</b-button>
+      <b-button variant="outline-primary" size="lg" class="mx-3" v-on:click="onClickResetShowingBtn">表示をすべて消す</b-button>
       <b-button variant="outline-secondary" size="lg" class="ml-5">表示設定</b-button>
     </div>
   </div>
@@ -71,12 +71,17 @@ export default {
       this.questionStr = this.qDataArray[index].question
       this.answerStr = this.qDataArray[index].answer
       this.currentIdx = index
+      this.onClickResetShowingBtn()
     },
     onClickPrevBtn: function () {
       this._setQuestionData(this.currentIdx - 1)
     },
     onClickNextBtn: function () {
       this._setQuestionData(this.currentIdx + 1)
+    },
+    onClickResetShowingBtn: function () {
+      this.isShowQuestion = false
+      this.isShowAnswer = false
     }
   },
   watch: {
