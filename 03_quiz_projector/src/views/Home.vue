@@ -23,8 +23,11 @@
       <b-button variant="outline-primary" size="lg" class="mx-3" :pressed.sync="isShowQuestion">問題を表示</b-button>
       <b-button variant="outline-primary" size="lg" class="mx-3" :pressed.sync="isShowAnswer">解答を表示</b-button>
       <b-button variant="outline-primary" size="lg" class="mx-3" v-on:click="onClickResetShowingBtn">表示をすべて消す</b-button>
-      <b-button variant="outline-secondary" size="lg" class="ml-5">表示設定</b-button>
+      <b-button variant="outline-secondary" size="lg" class="ml-5" v-b-modal.SettingsModal>表示設定</b-button>
     </div>
+
+    <!-- 設定モーダルダイアログ -->
+    <SettingsModal />
   </div>
 </template>
 
@@ -32,6 +35,7 @@
 import { ipcRenderer } from 'electron'
 // @はsrcのパスを表現するエイリアス
 import ImportedFileView from '@/components/ImportedFileView.vue'
+import SettingsModal from '@/components/SettingsModal.vue'
 import ExcelFileUtils from '@/utils/ExcelFileUitls.js'
 
 const DEFAULT_PATH_MSG = '問題ファイルを選択するか、ここへドラッグしてください'
@@ -39,7 +43,8 @@ const DEFAULT_PATH_MSG = '問題ファイルを選択するか、ここへドラ
 export default {
   name: 'Home',
   components: {
-    ImportedFileView
+    ImportedFileView,
+    SettingsModal
   },
   data () {
     return {

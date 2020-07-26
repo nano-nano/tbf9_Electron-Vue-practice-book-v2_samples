@@ -5,6 +5,7 @@ import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
+import SettingsFileUtils from './utils/SettingsFileUitls'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -101,11 +102,12 @@ ipcMain.handle('showFileSelectDialog', (event, data) => {
 // 問題投影ウィンドウ制御
 let projectionWin = null
 
-function createProjectionWindow() {
+async function createProjectionWindow() {
+  const settingsFile = await getSettingsFile()
   // ウィンドウインスタンスを生成
   projectionWin = new BrowserWindow({
-    x: 0,
-    y: 0,
+    x: settingsFile.pjWinX,
+    y: settingsFile.pjWinY,
     width: 800,
     height: 600,
     webPreferences: {
@@ -130,4 +132,33 @@ ipcMain.handle('operationProjection', (event, data) => {
   if (projectionWin != null) {
     projectionWin.webContents.send('operationProjection', data)
   }
+})
+
+function getSettingsFile() {
+  // Windowsの場合は C:\Users\【ユーザー名】\AppData\Roaming\【パッケージ名】
+  // Macの場合は /Users/【ユーザー名】/Library/Application Support/【パッケージ名】 を返す
+  const basePath = app.getPath('userData')
+  return SettingsFileUtils.loadSettingsFile(basePath)
+    .then(data => {
+      return data
+    })
+    .catch(() => {
+      return {pjWinX: 0, pjWinY: 0}
+    })
+}
+
+ipcMain.handle('getSettingsFile', (event, data) => {
+  return getSettingsFile()
+})
+
+ipcMain.handle('saveSettingsFile', (event, data) => {
+  console.log(data)
+  const basePath = app.getPath('userData')
+  return SettingsFileUtils.saveSettingsFile(basePath, data).then(() => {
+    if (projectionWin != null) {
+      // 表示中の投影用ウィンドウにも適用する
+      projectionWin.setBounds({x: data.pjWinX, y: data.pjWinY})
+      return true
+    }
+  })
 })
