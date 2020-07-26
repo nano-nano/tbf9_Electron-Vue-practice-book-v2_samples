@@ -4,6 +4,12 @@ import XlsxPopulate from 'xlsx-populate'
 
 export default class ExcelFileUtils {
 
+    /**
+     * クイズデータをインポートする
+     * 
+     * @param {string} path インポートするExcelファイルの完全パス
+     * @returns クイズデータ（question: 問題文, answer: 解答）の配列
+     */
     static async importQuizData(path) {
         let quizDatas = []
         const workbook = await XlsxPopulate.fromFileAsync(path)
