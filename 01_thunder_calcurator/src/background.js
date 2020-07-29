@@ -99,7 +99,7 @@ if (isDevelopment) {
 
 // IPC（プロセス間通信）の実装
 // メインプロセスを要するダイアログ表示をIPCを利用して行う
-ipcMain.handle('showSpeedGuideDialog', (event, data) => {
+ipcMain.handle('showSpeedGuideDialog', async (event, data) => {
   // 文言の参考: https://keisan.casio.jp/exec/system/1231998943
   dialog.showMessageBox({
     title: '音速の求め方',
