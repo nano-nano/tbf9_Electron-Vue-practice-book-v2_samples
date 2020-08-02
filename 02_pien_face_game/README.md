@@ -25,4 +25,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Resources
 
-- [「ぴえん」のうた (Short Version)](https://dova-s.jp/bgm/play12412.html)
+- [「ぴえん」のうた (Short Version)](https://soundevotee.net/marumaru_no_uta/2020/07/07/18/)
