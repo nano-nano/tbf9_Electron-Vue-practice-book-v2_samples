@@ -90,9 +90,9 @@ export default {
     }
   },
   mounted: function () {
-  // 画面のロードが完了し、動作可能になったタイミングで呼ばれる
-  this.bgmObj = new Howl({ src: [require('../assets/bgm.mp3')] })
-  this.beforeGame()
+    // 画面のロードが完了し、動作可能になったタイミングで呼ばれる
+    this.bgmObj = new Howl({ src: [require('../assets/bgm.mp3')] })
+    this.beforeGame()
   }
 }
 </script>
