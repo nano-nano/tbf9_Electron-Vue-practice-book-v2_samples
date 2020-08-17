@@ -1,6 +1,6 @@
 <template>
   <div class="importedFileView card">
-      <div class="card-body" v-on:dragover.prevent v-on:drop.prevent="onDragFile">
+      <div class="card-body" v-on:dragover.prevent v-on:drop="onDragFile">
         <div class="h4">問題データファイル（ここにドラッグも可）</div>
         <div class="d-flex">
             <div class="flex-grow-1 text-truncate" style="align-self: center">{{importedFilePath}}</div>
@@ -22,6 +22,9 @@ export default {
     onDragFile: function (event) {
       const files = event.target.files || event.dataTransfer.files;
       if (files != undefined && files[0] != undefined) {
+        const extension = files[0].name.slice((files[0].name.lastIndexOf('.') - 1 >>> 0) + 2)
+        // 拡張子を確認
+        if (extension != 'xls' || extension != 'xlsx') return
         this.onFilePathUpdated(files[0].path)
       } else {
         this.onFilePathUpdated('')
