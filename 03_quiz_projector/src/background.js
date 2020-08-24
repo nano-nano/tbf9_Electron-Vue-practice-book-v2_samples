@@ -5,7 +5,7 @@ import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
-import SettingsFileUtils from './utils/SettingsFileUitls'
+import SettingsFileUtils from './utils/SettingsFileUtils'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -152,7 +152,6 @@ ipcMain.handle('getSettingsFile', (event, data) => {
 })
 
 ipcMain.handle('saveSettingsFile', (event, data) => {
-  console.log(data)
   const basePath = app.getPath('userData')
   return SettingsFileUtils.saveSettingsFile(basePath, data).then(() => {
     if (projectionWin != null) {
